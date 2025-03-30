@@ -4,8 +4,7 @@ namespace BooksManagementSystem.Application.ResponseBase
 {
     public class ResponseHandler
     {
-        public ResponseHandler() { }
-        public Response<T> Success<T>(T entity, string? message = null, object? meta = null)
+        public static Response<T> Success<T>(T entity, string? message = null, object? meta = null)
         {
             return new Response<T>()
             {
@@ -16,7 +15,7 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Meta = meta
             };
         }
-        public Response<T> Created<T>(object? meta = null)
+        public static Response<T> Created<T>(object? meta = null)
         {
             return new Response<T>()
             {
@@ -26,7 +25,7 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Meta = meta
             };
         }
-        public Response<T> Updated<T>(object? meta = null)
+        public static Response<T> Updated<T>(object? meta = null)
         {
             return new Response<T>()
             {
@@ -36,7 +35,7 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Meta = meta
             };
         }
-        public Response<T> Deleted<T>(object? meta = null)
+        public static Response<T> Deleted<T>(object? meta = null)
         {
             return new Response<T>()
             {
@@ -46,7 +45,7 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Meta = meta
             };
         }
-        public Response<T> UnAuthorized<T>(string? message = null)
+        public static Response<T> UnAuthorized<T>(string? message = null)
         {
             return new Response<T>()
             {
@@ -55,7 +54,7 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Message = message == null ? "Unauthorized" : message
             };
         }
-        public Response<T> BadRequest<T>(string? message = null)
+        public static Response<T> BadRequest<T>(string? message = null)
         {
             return new Response<T>()
             {
@@ -64,7 +63,7 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Message = message == null ? "Bad Request" : message
             };
         }
-        public Response<T> UnprocessableEntity<T>(string? message = null)
+        public static Response<T> UnprocessableEntity<T>(string? message = null)
         {
             return new Response<T>()
             {
@@ -73,14 +72,16 @@ namespace BooksManagementSystem.Application.ResponseBase
                 Message = message == null ? "Unprocessable entity" : message
             };
         }
-        public Response<T> NotFound<T>(string? message = null)
+        public static Response<T> NotFound<T>(string error)
         {
-            return new Response<T>()
+            var response = new Response<T>()
             {
                 StatusCode = HttpStatusCode.NotFound,
                 Succeeded = false,
-                Message = message == null ? "Not Found" : message
+                Message = "Failed to process request"
             };
+            response.Errors.Add(error);
+            return response;
         }
     }
 }

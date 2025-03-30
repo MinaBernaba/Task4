@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProductProject.Application.ServiceInterfaces;
 using ProductProject.Application.Services;
-using ProductsProject.Core.Bahaviors;
+using ProductProject.Application.Validation;
 using System.Reflection;
 
 namespace ProductProject.Application

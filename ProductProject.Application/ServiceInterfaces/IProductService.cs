@@ -6,6 +6,7 @@ namespace ProductProject.Application.ServiceInterfaces
 {
     public interface IProductService : IBaseService<Product>
     {
+        Task<List<Product>> GetByIdsAsync(HashSet<int> productIds);
         Task<bool> AddAsync(Product product, HashSet<int> categoryIds);
         Task<bool> UpdateAsync(Product product, HashSet<int> categoryIds);
         Task<SetProductCategoriesResponse?> SetProductCategoriesAsync(int productId, HashSet<int> NewCategoryIds);

@@ -14,25 +14,34 @@ namespace ProductProject.Application.Features.Products.Commands.Validators
             _productService = productService;
             _categoryService = categoryService;
             ApplyValidationRules();
-            ApplyCustomValidationRules();
         }
         private void ApplyValidationRules()
         {
-
-
-        }
-
-        private void ApplyCustomValidationRules()
-        {
             RuleFor(x => x.ProductId)
-                .MustAsync(async (productId, cancellationToken) =>
-                await _productService.IsExistAsync(productId))
-                .WithMessage(x => $"Product ID: {x.ProductId} does not exist.");
+                .GreaterThan(0).WithMessage("Product ID must be greater than 0.")
+                .WithErrorCode("400")
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.ProductId)
+                    .MustAsync(async (productId, cancellationToken) =>
+                    await _productService.IsExistAsync(productId))
+                    .WithMessage(x => $"Product ID: {x.ProductId} does not exist.")
+                    .WithErrorCode("404");
+                });
+
 
             RuleFor(x => x.CategoryIds)
-                .MustAsync(async (categoryIds, cancellationToken) =>
-                   await _categoryService.DoAllCategoryIdsExistAsync(categoryIds))
-                .WithMessage("One or more provided categories do not exist.");
+                .NotEmpty().WithMessage("At least one category is required.")
+                .WithErrorCode("400")
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.CategoryIds)
+                        .MustAsync(async (categoryIds, cancellationToken) =>
+                            await _categoryService.DoAllCategoryIdsExistAsync(categoryIds))
+                        .WithMessage("One or more provided categories doesn't exist.")
+                        .WithErrorCode("404");
+                });
+
         }
     }
 }

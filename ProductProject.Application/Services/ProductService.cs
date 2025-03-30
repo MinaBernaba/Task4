@@ -17,6 +17,11 @@ namespace ProductProject.Application.Services
 
         public async Task<Product> GetByIdAsync(int productId)
             => await _unitOfWork.Products.GetByIdAsync(productId);
+
+        public async Task<List<Product>> GetByIdsAsync(HashSet<int> productIds)
+            => await GetAll()
+            .Where(x => productIds.Contains(x.ProductId))
+            .ToListAsync();
         public async Task<IEnumerable<ProductInfoResponse>> GetAllProductsInfoAsync()
         {
             var productsInfo = await GetAll()

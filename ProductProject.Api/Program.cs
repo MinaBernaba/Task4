@@ -1,6 +1,6 @@
+using ProductProject.Api.MiddleWare;
 using ProductProject.Application;
 using ProductProject.Infrastructure;
-using ProductsProject.Core.MiddleWare;
 
 var builder = WebApplication.CreateBuilder(args);
 

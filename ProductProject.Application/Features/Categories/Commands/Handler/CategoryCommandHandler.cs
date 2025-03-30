@@ -26,8 +26,6 @@ namespace ProductProject.Application.Features.Categories.Commands.Handler
 
         public async Task<Response<string>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            //var category = _mapper.Map<Category>(request);
-
             var category = await _categoryService.GetByIdAsync(request.CategoryId);
 
             _mapper.Map(request, category);
@@ -44,7 +42,7 @@ namespace ProductProject.Application.Features.Categories.Commands.Handler
         public async Task<Response<string>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             if (!await _categoryService.IsExistAsync(request.CategoryId))
-                return BadRequest<string>($"No Category with ID: {request.CategoryId}");
+                return NotFound<string>($"Category ID: {request.CategoryId} does not exist");
 
             bool isDeleted = await _categoryService.DeleteAsync(request.CategoryId);
 

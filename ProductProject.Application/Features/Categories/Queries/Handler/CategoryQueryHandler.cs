@@ -21,7 +21,7 @@ namespace ProductProject.Application.Features.Categories.Queries.Handler
         public async Task<Response<GetCategoryDetailedInfoResponse>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
             if (!await _categoryService.IsExistAsync(request.CategoryId))
-                return BadRequest<GetCategoryDetailedInfoResponse>($"No Category with ID: {request.CategoryId}");
+                return NotFound<GetCategoryDetailedInfoResponse>($"Category ID: {request.CategoryId} does not exist");
 
 
             var detailedCategory = await _categoryService.GetCategoryDetailedInfoAsync(request.CategoryId);

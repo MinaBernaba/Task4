@@ -12,20 +12,22 @@ namespace ProductProject.Application.Features.Products.Commands.Validators
         {
             _productService = productService;
             ApplyValidationRules();
-            ApplyCustomValidationRules();
         }
         private void ApplyValidationRules()
         {
 
-
-        }
-
-        private void ApplyCustomValidationRules()
-        {
             RuleFor(x => x.ProductId)
-                .MustAsync(async (productId, cancellationToken) =>
-                await _productService.IsExistAsync(productId))
-                .WithMessage(x => $"Product ID: {x.ProductId} does not exist.");
+                .GreaterThan(0).WithMessage("Product ID must be greater than 0.")
+                .WithErrorCode("400")
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.ProductId)
+                    .MustAsync(async (productId, cancellationToken) =>
+                    await _productService.IsExistAsync(productId))
+                    .WithMessage(x => $"Product ID: {x.ProductId} does not exist.")
+                    .WithErrorCode("404");
+                });
+
         }
     }
 }

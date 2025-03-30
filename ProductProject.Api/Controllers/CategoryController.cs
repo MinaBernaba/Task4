@@ -27,7 +27,7 @@ namespace ProductProject.Api.Controllers
         public async Task<IActionResult> UpdateCategory(UpdateCategoryCommand updateCategory)
            => NewResult(await _mediator.Send(updateCategory));
 
-        [HttpDelete("DeleteeCategory/{id}")]
+        [HttpDelete("DeleteCategory/{id}")]
         public async Task<IActionResult> DeleteeCategory(int id)
            => NewResult(await _mediator.Send(new DeleteCategoryCommand() { CategoryId = id }));
 
