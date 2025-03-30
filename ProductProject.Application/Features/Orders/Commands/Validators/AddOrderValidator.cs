@@ -60,7 +60,7 @@ namespace ProductProject.Application.Features.Orders.Commands.Validators
                                                 return quantity <= product.StockQuantity;
                                             })
                                             .WithMessage(x => $"Product ID: {x.ProductId} does not have enough stock.")
-                                            .WithErrorCode("409");
+                                            .WithErrorCode("422");
                                     });
                             });
                     });
